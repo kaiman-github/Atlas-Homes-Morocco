@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Atlas Homes – Property Management Group Morocco</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --ocean-deep:   #042b4a;
+      --ocean-mid:    #0a5a8a;
+      --ocean-bright: #0f8fc7;
+      --ocean-light:  #5fc7f0;
+      --seafoam:      #a8e6f0;
+      --sand:         #f5ede0;
+      --gold:         #d4a843;
+      --gold-light:   #f0c96a;
+      --white:        #ffffff;
+      --text-dark:    #0d1b2a;
+      --text-mid:     #3a556e;
+      --text-light:   #7a9ab5;
+      --radius-sm:    6px;
+      --radius-md:    14px;
+      --radius-lg:    28px;
+      --shadow-sm:    0 2px 12px rgba(4,43,74,.10);
+      --shadow-md:    0 8px 32px rgba(4,43,74,.18);
+      --shadow-lg:    0 20px 60px rgba(4,43,74,.25);
+      --transition:   .35s cubic-bezier(.4,0,.2,1);
+    }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body { font-family: 'DM Sans', sans-serif; color: var(--text-dark); background: var(--white); overflow-x: hidden; }
+    img { display: block; width: 100%; object-fit: cover; }
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+    h1,h2,h3,h4 { font-family: 'Playfair Display', serif; line-height: 1.2; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--ocean-deep); }
+    ::-webkit-scrollbar-thumb { background: var(--ocean-bright); border-radius: 3px; }
+
+    /* LANGUAGE SWITCHER */
+    .lang-switcher {
+      display: flex; align-items: center;
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.28);
+      border-radius: 50px; overflow: hidden;
+      font-size: .78rem; font-weight: 700; letter-spacing: .06em;
+    }
+    .lang-btn {
+      padding: .35rem .85rem; cursor: pointer;
+      color: rgba(255,255,255,.65);
+      transition: background var(--transition), color var(--transition);
+      user-select: none;
+    }
+    .lang-btn.active { background: var(--gold); color: var(--ocean-deep); }
+    .lang-btn:hover:not(.active) { color: var(--white); }
+
+    /* NAVBAR */
+    #navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5vw; height: 74px; background: transparent;
+      transition: background var(--transition), box-shadow var(--transition);
+    }
+    #navbar.scrolled { background: rgba(4,43,74,.95); backdrop-filter: blur(14px); box-shadow: 0 2px 24px rgba(0,0,0,.25); }
+    .nav-logo { display: flex; align-items: center; gap: 12px; }
+    .logo-mark { width: 44px; height: 44px; background: linear-gradient(135deg, var(--ocean-bright), var(--gold)); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 900; color: var(--white); flex-shrink: 0; }
+    .logo-text { color: var(--white); }
+    .logo-text strong { display: block; font-size: 1.05rem; font-weight: 700; letter-spacing: .04em; }
+    .logo-text span { font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; opacity: .7; }
+    .nav-right { display: flex; align-items: center; gap: 1.5rem; }
+    .nav-links { display: flex; gap: 2rem; align-items: center; }
+    .nav-links a { color: rgba(255,255,255,.85); font-size: .88rem; font-weight: 500; letter-spacing: .04em; transition: color var(--transition); }
+    .nav-links a:hover { color: var(--gold-light); }
+    .nav-cta { background: var(--gold); color: var(--ocean-deep) !important; padding: .5rem 1.25rem; border-radius: 50px; font-weight: 600 !important; transition: background var(--transition), transform var(--transition) !important; }
+    .nav-cta:hover { background: var(--gold-light); transform: translateY(-1px); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 6px; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: var(--white); border-radius: 2px; }
+    .mobile-menu { display: none; position: fixed; top: 74px; left: 0; right: 0; background: var(--ocean-deep); padding: 1.5rem 5vw 2rem; z-index: 998; flex-direction: column; gap: 1.25rem; box-shadow: var(--shadow-lg); }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { color: rgba(255,255,255,.85); font-size: 1rem; font-weight: 500; padding: .5rem 0; border-bottom: 1px solid rgba(255,255,255,.08); transition: color var(--transition); }
+    .mobile-menu a:hover { color: var(--gold-light); }
+    .mobile-menu .lang-switcher { align-self: flex-start; margin-top: .5rem; }
+
+    /* HERO */
+    #hero { position: relative; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
+    .hero-bg { position: absolute; inset: 0; background: linear-gradient(165deg, rgba(4,43,74,.88) 0%, rgba(10,90,138,.75) 45%, rgba(4,43,74,.92) 100%), url('https://images.unsplash.com/photo-1559181567-c3190ca9d5db?w=1600&q=80') center/cover no-repeat; }
+    .hero-bg::after { content: ''; position: absolute; bottom: -2px; left: 0; right: 0; height: 120px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120'%3E%3Cpath fill='%23ffffff' d='M0,64L60,58.7C120,53,240,43,360,48C480,53,600,75,720,74.7C840,75,960,53,1080,48C1200,43,1320,53,1380,58.7L1440,64L1440,120L1380,120C1320,120,1200,120,1080,120C960,120,840,120,720,120C600,120,480,120,360,120C240,120,120,120,60,120L0,120Z'/%3E%3C/svg%3E") bottom/cover no-repeat; }
+    .hero-content { position: relative; z-index: 2; padding: 0 5vw; max-width: 760px; animation: fadeUp .9s ease both; }
+    .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,.12); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,.25); color: var(--seafoam); font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; padding: .4rem 1rem; border-radius: 50px; margin-bottom: 1.5rem; }
+    .hero-badge::before { content: ''; width: 7px; height: 7px; background: var(--gold); border-radius: 50%; }
+    .hero-content h1 { font-size: clamp(2.6rem, 6vw, 4.5rem); color: var(--white); line-height: 1.1; margin-bottom: 1.25rem; }
+    .hero-content h1 em { color: var(--gold-light); font-style: normal; }
+    .hero-content p { color: rgba(255,255,255,.75); font-size: 1.1rem; line-height: 1.7; max-width: 540px; margin-bottom: 2.5rem; }
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-primary { background: linear-gradient(135deg, var(--gold), var(--gold-light)); color: var(--ocean-deep); font-weight: 700; padding: .85rem 2rem; border-radius: 50px; font-size: .95rem; letter-spacing: .03em; box-shadow: 0 8px 24px rgba(212,168,67,.4); transition: transform var(--transition), box-shadow var(--transition); }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(212,168,67,.5); }
+    .btn-outline { background: transparent; border: 2px solid rgba(255,255,255,.5); color: var(--white); font-weight: 600; padding: .82rem 2rem; border-radius: 50px; font-size: .95rem; transition: border-color var(--transition), background var(--transition); }
+    .btn-outline:hover { border-color: var(--white); background: rgba(255,255,255,.1); }
+    .hero-stats { position: relative; z-index: 2; display: flex; gap: 3rem; padding: 2.5rem 5vw 5rem; animation: fadeUp .9s .3s ease both; flex-wrap: wrap; }
+    .hero-stat { color: var(--white); }
+    .hero-stat strong { display: block; font-size: 2rem; font-family: 'Playfair Display', serif; color: var(--gold-light); }
+    .hero-stat span { font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; opacity: .7; }
+
+    /* SECTIONS */
+    section { padding: 6rem 5vw; }
+    .section-label { display: inline-block; color: var(--ocean-bright); font-size: .78rem; letter-spacing: .14em; text-transform: uppercase; font-weight: 600; margin-bottom: .75rem; }
+    .section-title { font-size: clamp(1.8rem, 4vw, 2.8rem); color: var(--ocean-deep); margin-bottom: 1rem; }
+    .section-sub { color: var(--text-mid); font-size: 1rem; line-height: 1.7; max-width: 540px; }
+    .section-header { margin-bottom: 3.5rem; }
+    .section-header.centered { text-align: center; }
+    .section-header.centered .section-sub { margin: 0 auto; }
+
+    /* AIRBNB */
+    #airbnb { background: linear-gradient(135deg, var(--ocean-deep) 0%, var(--ocean-mid) 100%); padding: 4rem 5vw; color: var(--white); }
+    .airbnb-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    .airbnb-text .section-title { color: var(--white); }
+    .airbnb-text .section-sub { color: rgba(255,255,255,.7); max-width: 440px; margin-bottom: 2rem; }
+    .airbnb-features { display: flex; flex-direction: column; gap: .9rem; margin-bottom: 2rem; }
+    .airbnb-feat { display: flex; align-items: center; gap: .75rem; color: rgba(255,255,255,.85); font-size: .93rem; }
+    .airbnb-feat .dot { width: 8px; height: 8px; background: var(--gold); border-radius: 50%; flex-shrink: 0; }
+    .airbnb-visual { border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-lg); position: relative; }
+    .airbnb-visual img { height: 360px; }
+    .airbnb-badge { position: absolute; bottom: 1.5rem; left: 1.5rem; background: rgba(255,255,255,.95); border-radius: var(--radius-md); padding: 1rem 1.25rem; display: flex; align-items: center; gap: .75rem; box-shadow: var(--shadow-md); }
+    .airbnb-badge .ab-icon { font-size: 2rem; }
+    .airbnb-badge strong { display: block; color: var(--ocean-deep); font-size: .9rem; }
+    .airbnb-badge span { color: var(--text-mid); font-size: .78rem; }
+
+    /* SERVICES */
+    #services { background: var(--sand); }
+    .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 1.5rem; }
+    .service-card { background: var(--white); border-radius: var(--radius-lg); padding: 2rem; box-shadow: var(--shadow-sm); transition: transform var(--transition), box-shadow var(--transition); position: relative; overflow: hidden; }
+    .service-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, var(--ocean-bright), var(--gold)); transform: scaleX(0); transform-origin: left; transition: transform var(--transition); }
+    .service-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); }
+    .service-card:hover::before { transform: scaleX(1); }
+    .service-icon { width: 58px; height: 58px; background: linear-gradient(135deg, rgba(15,143,199,.12), rgba(15,143,199,.05)); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; margin-bottom: 1.25rem; }
+    .service-card h3 { font-size: 1.15rem; color: var(--ocean-deep); margin-bottom: .6rem; }
+    .service-card p { color: var(--text-mid); font-size: .9rem; line-height: 1.65; }
+    .service-tag { display: inline-block; margin-top: 1rem; background: rgba(15,143,199,.1); color: var(--ocean-mid); font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; font-weight: 600; padding: .25rem .7rem; border-radius: 50px; }
+
+    /* LISTINGS */
+    #listings { background: var(--white); }
+    .listings-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.75rem; }
+    .listing-card { border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-sm); transition: transform var(--transition), box-shadow var(--transition); }
+    .listing-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-md); }
+    .listing-img { position: relative; height: 230px; overflow: hidden; }
+    .listing-img img { height: 100%; transition: transform .6s ease; }
+    .listing-card:hover .listing-img img { transform: scale(1.05); }
+    .listing-badge { position: absolute; top: 1rem; left: 1rem; background: var(--ocean-deep); color: var(--white); font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; font-weight: 700; padding: .3rem .85rem; border-radius: 50px; }
+    .listing-badge.sale { background: var(--gold); color: var(--ocean-deep); }
+    .listing-body { padding: 1.5rem; background: var(--white); }
+    .listing-body h3 { font-size: 1.1rem; color: var(--ocean-deep); margin-bottom: .4rem; }
+    .listing-loc { color: var(--text-light); font-size: .83rem; display: flex; align-items: center; gap: .35rem; margin-bottom: 1rem; }
+    .listing-loc::before { content: '📍'; font-size: .85rem; }
+    .listing-meta { display: flex; gap: 1.25rem; border-top: 1px solid #eef2f5; padding-top: .9rem; margin-bottom: 1rem; }
+    .listing-meta span { font-size: .82rem; color: var(--text-mid); display: flex; align-items: center; gap: .3rem; }
+    .listing-price { font-size: 1.2rem; font-family: 'Playfair Display', serif; color: var(--ocean-mid); font-weight: 700; }
+    .listing-price sub { font-size: .7rem; font-family: 'DM Sans', sans-serif; color: var(--text-light); }
+
+    /* GALLERY */
+    #gallery { background: var(--ocean-deep); }
+    #gallery .section-title { color: var(--white); }
+    #gallery .section-sub { color: rgba(255,255,255,.6); }
+    #gallery .section-label { color: var(--seafoam); }
+    .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .gallery-item { border-radius: var(--radius-md); overflow: hidden; position: relative; cursor: pointer; }
+    .gallery-item img { height: 200px; transition: transform .5s ease; }
+    .gallery-item:hover img { transform: scale(1.08); }
+    .gallery-item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+    .gallery-item:nth-child(1) img { height: 100%; min-height: 410px; }
+    .gallery-item:nth-child(6) { grid-column: span 2; }
+    .gallery-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(4,43,74,.8), transparent); opacity: 0; transition: opacity var(--transition); display: flex; align-items: flex-end; padding: 1rem; color: var(--white); font-size: .85rem; }
+    .gallery-item:hover .gallery-overlay { opacity: 1; }
+
+    /* WHY */
+    #why { background: var(--sand); }
+    .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    .why-visual { position: relative; }
+    .why-visual .main-img { border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-lg); height: 500px; }
+    .why-visual .accent-card { position: absolute; bottom: -2rem; right: -2rem; background: var(--white); border-radius: var(--radius-md); padding: 1.25rem 1.5rem; box-shadow: var(--shadow-md); min-width: 200px; }
+    .accent-card .ac-num { font-size: 2.2rem; font-family: 'Playfair Display', serif; color: var(--ocean-bright); font-weight: 700; }
+    .accent-card p { font-size: .82rem; color: var(--text-mid); line-height: 1.5; }
+    .why-points { display: flex; flex-direction: column; gap: 1.5rem; margin-top: 2rem; }
+    .why-point { display: flex; gap: 1rem; align-items: flex-start; }
+    .wp-icon { width: 44px; height: 44px; flex-shrink: 0; background: linear-gradient(135deg, var(--ocean-bright), var(--ocean-mid)); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; color: var(--white); }
+    .wp-body h4 { color: var(--ocean-deep); font-size: 1rem; margin-bottom: .3rem; }
+    .wp-body p { color: var(--text-mid); font-size: .88rem; line-height: 1.6; }
+
+    /* TESTIMONIALS */
+    #testimonials { background: var(--white); }
+    .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+    .testi-card { background: var(--sand); border-radius: var(--radius-lg); padding: 2rem; position: relative; }
+    .testi-quote { font-size: 3.5rem; line-height: 1; color: var(--ocean-light); font-family: Georgia, serif; position: absolute; top: .75rem; left: 1.5rem; }
+    .testi-card p { color: var(--text-mid); font-size: .93rem; line-height: 1.7; margin-top: 1.5rem; margin-bottom: 1.5rem; }
+    .testi-author { display: flex; align-items: center; gap: .85rem; }
+    .testi-avatar { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, var(--ocean-bright), var(--ocean-mid)); display: flex; align-items: center; justify-content: center; color: var(--white); font-weight: 700; font-size: .95rem; flex-shrink: 0; }
+    .testi-author strong { display: block; color: var(--ocean-deep); font-size: .9rem; }
+    .testi-author span { color: var(--text-light); font-size: .78rem; }
+    .stars { color: var(--gold); font-size: .85rem; margin-bottom: .25rem; }
+
+    /* CONTACT */
+    #contact { background: linear-gradient(160deg, var(--ocean-deep) 0%, var(--ocean-mid) 100%); color: var(--white); }
+    .contact-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+    .contact-info .section-title { color: var(--white); }
+    .contact-info .section-sub { color: rgba(255,255,255,.7); margin-bottom: 2.5rem; }
+    .contact-items { display: flex; flex-direction: column; gap: 1.5rem; }
+    .ci { display: flex; gap: 1rem; align-items: flex-start; }
+    .ci-icon { width: 46px; height: 46px; flex-shrink: 0; background: rgba(255,255,255,.12); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+    .ci-body strong { display: block; color: var(--white); font-size: .9rem; margin-bottom: .2rem; }
+    .ci-body span { color: rgba(255,255,255,.65); font-size: .88rem; }
+    .contact-form { background: var(--white); border-radius: var(--radius-lg); padding: 2.5rem; box-shadow: var(--shadow-lg); }
+    .contact-form h3 { font-size: 1.5rem; color: var(--ocean-deep); margin-bottom: 1.75rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-group { display: flex; flex-direction: column; gap: .4rem; margin-bottom: 1.1rem; }
+    .form-group label { font-size: .82rem; font-weight: 600; color: var(--text-mid); letter-spacing: .04em; }
+    .form-group input, .form-group select, .form-group textarea { padding: .75rem 1rem; border: 1.5px solid #dde5ee; border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: .92rem; color: var(--text-dark); background: var(--white); outline: none; transition: border-color var(--transition), box-shadow var(--transition); }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--ocean-bright); box-shadow: 0 0 0 3px rgba(15,143,199,.15); }
+    .form-group textarea { resize: vertical; min-height: 110px; }
+    .btn-submit { width: 100%; background: linear-gradient(135deg, var(--ocean-bright), var(--ocean-mid)); color: var(--white); font-weight: 700; font-size: 1rem; padding: 1rem; border: none; border-radius: var(--radius-sm); cursor: pointer; letter-spacing: .04em; transition: transform var(--transition), box-shadow var(--transition); box-shadow: 0 6px 24px rgba(15,143,199,.35); }
+    .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(15,143,199,.45); }
+    .form-note { text-align: center; font-size: .78rem; color: var(--text-light); margin-top: .75rem; }
+
+    /* FOOTER */
+    footer { background: var(--text-dark); color: rgba(255,255,255,.6); padding: 3.5rem 5vw 2rem; }
+    .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+    .footer-brand p { margin-top: 1rem; line-height: 1.7; font-size: .88rem; max-width: 280px; }
+    .footer-col h4 { color: var(--white); font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: .88rem; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 1.1rem; }
+    .footer-col li { margin-bottom: .6rem; }
+    .footer-col a { font-size: .88rem; transition: color var(--transition); }
+    .footer-col a:hover { color: var(--ocean-light); }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,.08); padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: .75rem; font-size: .82rem; }
+    .footer-bottom a { color: var(--ocean-light); }
+    .social-links { display: flex; gap: .75rem; }
+    .social-links a { width: 36px; height: 36px; border-radius: 8px; background: rgba(255,255,255,.08); display: flex; align-items: center; justify-content: center; font-size: .9rem; transition: background var(--transition); }
+    .social-links a:hover { background: var(--ocean-bright); }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    .reveal { opacity: 0; transform: translateY(25px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 1100px) { .footer-top { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 900px) {
+      .nav-links, .nav-right > .lang-switcher { display: none; }
+      .hamburger { display: flex; }
+      .airbnb-inner, .why-grid, .contact-inner { grid-template-columns: 1fr; }
+      .why-visual .accent-card { right: 0; }
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+      .gallery-item:nth-child(1) { grid-column: span 2; }
+    }
+    @media (max-width: 600px) {
+      section { padding: 4rem 5vw; }
+      .hero-stats { gap: 1.75rem; }
+      .form-row { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr; gap: 2rem; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+      .why-visual .main-img { height: 320px; }
+    }
+    @media (max-width: 420px) {
+      .gallery-grid { grid-template-columns: 1fr; }
+      .gallery-item, .gallery-item:nth-child(1), .gallery-item:nth-child(6) { grid-column: span 1; }
+      .gallery-item:nth-child(1) img { min-height: 220px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">
+    <div class="logo-mark">A</div>
+    <div class="logo-text">
+      <strong>ATLAS HOMES</strong>
+      <span>Property Management Group</span>
+    </div>
+  </a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="#listings"  data-i18n="nav.properties">Properties</a></li>
+      <li><a href="#airbnb"    data-i18n="nav.airbnb">Airbnb</a></li>
+      <li><a href="#services"  data-i18n="nav.services">Services</a></li>
+      <li><a href="#gallery"   data-i18n="nav.gallery">Gallery</a></li>
+      <li><a href="#contact" class="nav-cta" data-i18n="nav.contact">Contact Us</a></li>
+    </ul>
+    <div class="lang-switcher">
+      <div class="lang-btn active" onclick="setLang('en')">EN</div>
+      <div class="lang-btn"        onclick="setLang('fr')">FR</div>
+    </div>
+  </div>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#listings" onclick="closeMenu()" data-i18n="nav.properties">Properties</a>
+  <a href="#airbnb"   onclick="closeMenu()" data-i18n="nav.airbnb">Airbnb</a>
+  <a href="#services" onclick="closeMenu()" data-i18n="nav.services">Services</a>
+  <a href="#gallery"  onclick="closeMenu()" data-i18n="nav.gallery">Gallery</a>
+  <a href="#contact"  onclick="closeMenu()" data-i18n="nav.contact">Contact Us</a>
+  <div class="lang-switcher">
+    <div class="lang-btn active" onclick="setLang('en')">EN</div>
+    <div class="lang-btn"        onclick="setLang('fr')">FR</div>
+  </div>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-badge" data-i18n="hero.badge">Morocco's Premier Property Group</div>
+    <h1 data-i18n-html="hero.title">Discover Your<br><em>Dream Home</em><br>in Morocco</h1>
+    <p data-i18n="hero.sub">From the Atlantic coastline to the foothills of the Atlas Mountains — luxury rentals, sales, and full property management tailored to your lifestyle.</p>
+    <div class="hero-btns">
+      <a href="#listings" class="btn-primary" data-i18n="hero.btn1">Explore Properties</a>
+      <a href="#contact"  class="btn-outline"  data-i18n="hero.btn2">Get in Touch</a>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat"><strong>250+</strong><span data-i18n="hero.stat1">Properties Listed</span></div>
+    <div class="hero-stat"><strong>12+</strong> <span data-i18n="hero.stat2">Cities in Morocco</span></div>
+    <div class="hero-stat"><strong>98%</strong> <span data-i18n="hero.stat3">Client Satisfaction</span></div>
+    <div class="hero-stat"><strong>8</strong>   <span data-i18n="hero.stat4">Years of Experience</span></div>
+  </div>
+</section>
+
+<!-- AIRBNB -->
+<section id="airbnb">
+  <div class="airbnb-inner">
+    <div class="airbnb-text reveal">
+      <span class="section-label" style="color:var(--seafoam);" data-i18n="airbnb.label">Short-Term Rentals</span>
+      <h2 class="section-title" data-i18n-html="airbnb.title">We Manage Your<br>Airbnb Property</h2>
+      <p class="section-sub" data-i18n="airbnb.sub">Turn your Moroccan property into a high-performing short-term rental. We handle everything so you earn passive income stress-free.</p>
+      <div class="airbnb-features">
+        <div class="airbnb-feat"><span class="dot"></span><span data-i18n="airbnb.f1">Professional listing creation &amp; photography</span></div>
+        <div class="airbnb-feat"><span class="dot"></span><span data-i18n="airbnb.f2">Dynamic pricing &amp; revenue optimisation</span></div>
+        <div class="airbnb-feat"><span class="dot"></span><span data-i18n="airbnb.f3">24/7 guest communication &amp; check-in management</span></div>
+        <div class="airbnb-feat"><span class="dot"></span><span data-i18n="airbnb.f4">Full housekeeping between guest stays</span></div>
+        <div class="airbnb-feat"><span class="dot"></span><span data-i18n="airbnb.f5">Monthly earnings reports &amp; owner portal</span></div>
+      </div>
+      <a href="#contact" class="btn-primary" data-i18n="airbnb.cta">List Your Property</a>
+    </div>
+    <div class="airbnb-visual reveal">
+      <img src="https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=800&q=80" alt="Airbnb Morocco" />
+      <div class="airbnb-badge">
+        <span class="ab-icon">🏠</span>
+        <div>
+          <strong data-i18n="airbnb.badge1">Airbnb Partner</strong>
+          <span   data-i18n="airbnb.badge2">Verified Manager</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-header centered reveal">
+    <span class="section-label" data-i18n="services.label">What We Offer</span>
+    <h2 class="section-title"  data-i18n="services.title">Complete Property Services</h2>
+    <p class="section-sub"     data-i18n="services.sub">Everything your property needs — from day-to-day upkeep to advanced tech installations and transport referrals.</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card reveal"><div class="service-icon">🧹</div><h3 data-i18n="s1.title">Professional Housekeeping</h3><p data-i18n="s1.desc">Regular and deep-cleaning services by vetted, trained staff. We keep your property spotless for tenants, guests, and viewings.</p><span class="service-tag" data-i18n="s1.tag">Recurring &amp; One-off</span></div>
+    <div class="service-card reveal"><div class="service-icon">🔧</div><h3 data-i18n="s2.title">Repair &amp; Maintenance</h3><p data-i18n="s2.desc">Quick-response repairs — plumbing, electrical, painting, tiling and more. We coordinate trusted local contractors so you don't have to.</p><span class="service-tag" data-i18n="s2.tag">Referral Network</span></div>
+    <div class="service-card reveal"><div class="service-icon">🌐</div><h3 data-i18n="s3.title">Internet Access Setup</h3><p data-i18n="s3.desc">Fast fiber and 4G/5G internet installations organised for your property. We liaise with top Moroccan ISPs to get your tenants connected quickly.</p><span class="service-tag" data-i18n="s3.tag">ISP Coordination</span></div>
+    <div class="service-card reveal"><div class="service-icon">📷</div><h3 data-i18n="s4.title">Security Camera Installation</h3><p data-i18n="s4.desc">Referrals to certified CCTV and smart security system installers. Protect your investment with modern surveillance technology.</p><span class="service-tag" data-i18n="s4.tag">Referral Service</span></div>
+    <div class="service-card reveal"><div class="service-icon">🚗</div><h3 data-i18n="s5.title">Car Rental Referrals</h3><p data-i18n="s5.desc">We connect guests and tenants with reliable car rental partners across Morocco — airport pickups, long-term hires and luxury vehicles available.</p><span class="service-tag" data-i18n="s5.tag">Partner Network</span></div>
+    <div class="service-card reveal"><div class="service-icon">📋</div><h3 data-i18n="s6.title">Property Management</h3><p data-i18n="s6.desc">Full-service management for landlords — tenant screening, lease agreements, rent collection, inspections, and legal compliance handled end-to-end.</p><span class="service-tag" data-i18n="s6.tag">Full Package</span></div>
+  </div>
+</section>
+
+<!-- LISTINGS -->
+<section id="listings">
+  <div class="section-header reveal">
+    <span class="section-label" data-i18n="listings.label">Featured Properties</span>
+    <h2 class="section-title"   data-i18n="listings.title">Homes for Rent &amp; Sale</h2>
+    <p class="section-sub"      data-i18n="listings.sub">Curated listings across Morocco's most desirable cities — Casablanca, Marrakech, Rabat, Agadir and beyond.</p>
+  </div>
+  <div class="listings-grid">
+    <div class="listing-card reveal">
+      <div class="listing-img"><img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&q=80" alt="Villa" /><span class="listing-badge" data-i18n="badge.rent">For Rent</span></div>
+      <div class="listing-body"><h3 data-i18n="l1.title">Luxury Villa with Pool</h3><p class="listing-loc">Ain Diab, Casablanca</p><div class="listing-meta"><span>🛏 4 <span data-i18n="beds">Beds</span></span><span>🛁 3 <span data-i18n="baths">Baths</span></span><span>📐 280 m²</span></div><div class="listing-price">12 000 MAD <sub data-i18n="month">/month</sub></div></div>
+    </div>
+    <div class="listing-card reveal">
+      <div class="listing-img"><img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&q=80" alt="Riad" /><span class="listing-badge sale" data-i18n="badge.sale">For Sale</span></div>
+      <div class="listing-body"><h3 data-i18n="l2.title">Traditional Riad – Medina</h3><p class="listing-loc">Médina, Marrakech</p><div class="listing-meta"><span>🛏 6 <span data-i18n="beds">Beds</span></span><span>🛁 4 <span data-i18n="baths">Baths</span></span><span>📐 420 m²</span></div><div class="listing-price">3,2 M MAD <sub data-i18n="asking">asking price</sub></div></div>
+    </div>
+    <div class="listing-card reveal">
+      <div class="listing-img"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=80" alt="Apartment" /><span class="listing-badge" data-i18n="badge.rent">For Rent</span></div>
+      <div class="listing-body"><h3 data-i18n="l3.title">Modern Sea-View Apartment</h3><p class="listing-loc">Agdal, Rabat</p><div class="listing-meta"><span>🛏 2 <span data-i18n="beds">Beds</span></span><span>🛁 2 <span data-i18n="baths">Baths</span></span><span>📐 105 m²</span></div><div class="listing-price">6 500 MAD <sub data-i18n="month">/month</sub></div></div>
+    </div>
+    <div class="listing-card reveal">
+      <div class="listing-img"><img src="https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=600&q=80" alt="Beach" /><span class="listing-badge sale" data-i18n="badge.sale">For Sale</span></div>
+      <div class="listing-body"><h3 data-i18n="l4.title">Beachfront House</h3><p class="listing-loc">Secteur Touristique, Agadir</p><div class="listing-meta"><span>🛏 5 <span data-i18n="beds">Beds</span></span><span>🛁 3 <span data-i18n="baths">Baths</span></span><span>📐 350 m²</span></div><div class="listing-price">4,8 M MAD <sub data-i18n="asking">asking price</sub></div></div>
+    </div>
+    <div class="listing-card reveal">
+      <div class="listing-img"><img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&q=80" alt="Studio" /><span class="listing-badge" data-i18n="badge.rent">For Rent</span></div>
+      <div class="listing-body"><h3 data-i18n="l5.title">Chic Studio – City Centre</h3><p class="listing-loc">Ville Nouvelle, Tanger</p><div class="listing-meta"><span>🛏 1 <span data-i18n="bed">Bed</span></span><span>🛁 1 <span data-i18n="bath">Bath</span></span><span>📐 55 m²</span></div><div class="listing-price">3 200 MAD <sub data-i18n="month">/month</sub></div></div>
+    </div>
+    <div class="listing-card reveal">
+      <div class="listing-img"><img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&q=80" alt="Penthouse" /><span class="listing-badge sale" data-i18n="badge.sale">For Sale</span></div>
+      <div class="listing-body"><h3 data-i18n="l6.title">Penthouse – Marina Casablanca</h3><p class="listing-loc">La Marina, Casablanca</p><div class="listing-meta"><span>🛏 3 <span data-i18n="beds">Beds</span></span><span>🛁 3 <span data-i18n="baths">Baths</span></span><span>📐 230 m²</span></div><div class="listing-price">5,5 M MAD <sub data-i18n="asking">asking price</sub></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="section-header centered reveal">
+    <span class="section-label" data-i18n="gallery.label">Photo Gallery</span>
+    <h2 class="section-title"   data-i18n="gallery.title">Life in Moroccan Properties</h2>
+    <p class="section-sub"      data-i18n="gallery.sub">A glimpse into the spaces, views, and interiors we manage across the kingdom.</p>
+  </div>
+  <div class="gallery-grid">
+    <div class="gallery-item"><img src="https://images.unsplash.com/photo-1501183638710-841dd1904471?w=800&q=80" alt="Living room"/><div class="gallery-overlay" data-i18n="g.cap1">Luxury Living Room – Casablanca</div></div>
+    <div class="gallery-item"><img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=500&q=80" alt="Kitchen"/><div class="gallery-overlay" data-i18n="g.cap2">Modern Kitchen</div></div>
+    <div class="gallery-item"><img src="https://images.unsplash.com/photo-1507089947368-19c1da9775ae?w=500&q=80" alt="Bedroom"/><div class="gallery-overlay" data-i18n="g.cap3">Master Suite</div></div>
+    <div class="gallery-item"><img src="https://images.unsplash.com/photo-1519710164239-da123dc03ef4?w=500&q=80" alt="Pool"/><div class="gallery-overlay" data-i18n="g.cap4">Private Pool Villa</div></div>
+    <div class="gallery-item"><img src="https://images.unsplash.com/photo-1588854337221-4cf9fa96059c?w=500&q=80" alt="Terrace"/><div class="gallery-overlay" data-i18n="g.cap5">Rooftop Terrace – Marrakech</div></div>
+    <div class="gallery-item"><img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800&q=80" alt="Riad"/><div class="gallery-overlay" data-i18n="g.cap6">Traditional Riad Courtyard</div></div>
+    <div class="gallery-item"><img src="https://images.unsplash.com/photo-1504643037576-9932f59aa2b7?w=500&q=80" alt="Bathroom"/><div class="gallery-overlay" data-i18n="g.cap7">Spa-Style Bathroom</div></div>
+    <div class="gallery-item"><img src="https://images.unsplash.com/photo-1560185007-cde436f6a4d0?w=500&q=80" alt="Dining"/><div class="gallery-overlay" data-i18n="g.cap8">Open Dining Area</div></div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section id="why">
+  <div class="why-grid">
+    <div class="why-visual reveal">
+      <div class="main-img"><img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&q=80" alt="Property" style="height:500px;"/></div>
+      <div class="accent-card"><div class="ac-num">★ 4.9</div><p data-i18n="why.rating">Average client rating<br>across all services</p></div>
+    </div>
+    <div class="why-content reveal">
+      <span class="section-label" data-i18n="why.label">Why Atlas Homes</span>
+      <h2 class="section-title"   data-i18n="why.title">Morocco's Most Trusted Property Partner</h2>
+      <p class="section-sub"      data-i18n="why.sub">We combine local expertise with international standards to deliver property solutions that exceed expectations.</p>
+      <div class="why-points">
+        <div class="why-point"><div class="wp-icon">🏆</div><div class="wp-body"><h4 data-i18n="why.p1h">Local Expertise</h4><p data-i18n="why.p1d">Deep knowledge of Morocco's property market, legal framework, and best neighbourhoods across all major cities.</p></div></div>
+        <div class="why-point"><div class="wp-icon">🌍</div><div class="wp-body"><h4 data-i18n="why.p2h">Multilingual Team</h4><p data-i18n="why.p2d">We serve clients in Arabic, Darija, French, English and Spanish — no communication barriers, ever.</p></div></div>
+        <div class="why-point"><div class="wp-icon">🔐</div><div class="wp-body"><h4 data-i18n="why.p3h">Transparent &amp; Secure</h4><p data-i18n="why.p3d">Full transparency on fees, contracts, and earnings. Your property and income are always protected.</p></div></div>
+        <div class="why-point"><div class="wp-icon">📞</div><div class="wp-body"><h4 data-i18n="why.p4h">24/7 Support</h4><p data-i18n="why.p4d">Round-the-clock availability for owners and tenants. Emergencies don't wait — neither do we.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="section-header centered reveal">
+    <span class="section-label" data-i18n="testi.label">Client Stories</span>
+    <h2 class="section-title"   data-i18n="testi.title">What Our Clients Say</h2>
+  </div>
+  <div class="testimonials-grid">
+    <div class="testi-card reveal"><div class="testi-quote">"</div><p data-i18n="t1.text">Atlas Homes transformed my Marrakech riad into a top-performing Airbnb. I now earn three times what I made with a long-term tenant — completely hands-off.</p><div class="testi-author"><div class="testi-avatar">SK</div><div><div class="stars">★★★★★</div><strong>Samir Khalil</strong><span data-i18n="t1.role">Property Owner, Marrakech</span></div></div></div>
+    <div class="testi-card reveal"><div class="testi-quote">"</div><p data-i18n="t2.text">From finding us the perfect apartment in Rabat to setting up internet and organising a car rental, Atlas Homes handled every detail seamlessly.</p><div class="testi-author"><div class="testi-avatar">LM</div><div><div class="stars">★★★★★</div><strong>Laura Martinez</strong><span data-i18n="t2.role">Expat Tenant, Rabat</span></div></div></div>
+    <div class="testi-card reveal"><div class="testi-quote">"</div><p data-i18n="t3.text">We purchased our dream beachfront home in Agadir through Atlas Homes. Professional, honest, and incredibly efficient throughout the entire buying process.</p><div class="testi-author"><div class="testi-avatar">JD</div><div><div class="stars">★★★★★</div><strong>Jean Dupont</strong><span data-i18n="t3.role">Buyer, Agadir</span></div></div></div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <div class="contact-info reveal">
+      <span class="section-label" style="color:var(--seafoam);" data-i18n="contact.label">Get in Touch</span>
+      <h2 class="section-title" data-i18n-html="contact.title">Let's Find Your<br>Perfect Property</h2>
+      <p class="section-sub" data-i18n="contact.sub">Whether you're renting, buying, or looking to list your property with us — we're here to help. Reach out today.</p>
+      <div class="contact-items">
+        <div class="ci"><div class="ci-icon">📍</div><div class="ci-body"><strong data-i18n="ci1.label">Head Office</strong><span>12 Boulevard Mohammed V, Casablanca, Maroc</span></div></div>
+        <div class="ci"><div class="ci-icon">📞</div><div class="ci-body"><strong data-i18n="ci2.label">Phone &amp; WhatsApp</strong><span>+212 522 000 000</span></div></div>
+        <div class="ci"><div class="ci-icon">✉️</div><div class="ci-body"><strong data-i18n="ci3.label">Email</strong><span>info@atlashomes.ma</span></div></div>
+        <div class="ci"><div class="ci-icon">🕐</div><div class="ci-body"><strong data-i18n="ci4.label">Office Hours</strong><span data-i18n="ci4.val">Mon – Fri: 9:00 – 18:00 · Sat: 10:00 – 15:00</span></div></div>
+      </div>
+    </div>
+    <div class="contact-form reveal">
+      <h3 data-i18n="form.title">Send Us a Message</h3>
+      <div class="form-row">
+        <div class="form-group"><label data-i18n="form.fname">First Name</label><input type="text" placeholder="Ahmed" /></div>
+        <div class="form-group"><label data-i18n="form.lname">Last Name</label><input type="text" placeholder="Benali" /></div>
+      </div>
+      <div class="form-group"><label data-i18n="form.email">Email Address</label><input type="email" placeholder="ahmed@example.com" /></div>
+      <div class="form-group"><label data-i18n="form.phone">Phone / WhatsApp</label><input type="tel" placeholder="+212 6XX XXX XXX" /></div>
+      <div class="form-group">
+        <label data-i18n="form.interest">I'm interested in…</label>
+        <select>
+          <option data-i18n="fo0">Select a service</option>
+          <option data-i18n="fo1">Renting a Property</option>
+          <option data-i18n="fo2">Buying a Property</option>
+          <option data-i18n="fo3">Airbnb Management</option>
+          <option data-i18n="fo4">Housekeeping Services</option>
+          <option data-i18n="fo5">Repair &amp; Maintenance</option>
+          <option data-i18n="fo6">Internet Setup</option>
+          <option data-i18n="fo7">Security Camera Installation</option>
+          <option data-i18n="fo8">Car Rental Referral</option>
+          <option data-i18n="fo9">Other</option>
+        </select>
+      </div>
+      <div class="form-group"><label data-i18n="form.message">Message</label><textarea data-ph-key="form.message.ph" placeholder="Tell us about your requirements, budget, preferred city…"></textarea></div>
+      <button class="btn-submit" data-i18n="form.submit">Send Message →</button>
+      <p class="form-note" data-i18n="form.note">We respond within 24 hours. Your details are never shared.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="nav-logo">
+        <div class="logo-mark">A</div>
+        <div class="logo-text" style="color:rgba(255,255,255,.9);">
+          <strong>ATLAS HOMES</strong>
+          <span>Property Management Group</span>
+        </div>
+      </div>
+      <p data-i18n="footer.tagline">Morocco's trusted partner for property rental, sales, Airbnb management, and premium residential services since 2016.</p>
+      <div class="social-links" style="margin-top:1.25rem;">
+        <a href="#" title="Facebook">f</a>
+        <a href="#" title="Instagram">ig</a>
+        <a href="#" title="WhatsApp">w</a>
+        <a href="#" title="LinkedIn">in</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4 data-i18n="fc1.title">Properties</h4>
+      <ul>
+        <li><a href="#" data-i18n="fc1.l1">Rentals</a></li>
+        <li><a href="#" data-i18n="fc1.l2">For Sale</a></li>
+        <li><a href="#" data-i18n="fc1.l3">Airbnb Listings</a></li>
+        <li><a href="#" data-i18n="fc1.l4">New Developments</a></li>
+        <li><a href="#" data-i18n="fc1.l5">Commercial</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 data-i18n="fc2.title">Services</h4>
+      <ul>
+        <li><a href="#" data-i18n="fc2.l1">Housekeeping</a></li>
+        <li><a href="#" data-i18n="fc2.l2">Repairs &amp; Maintenance</a></li>
+        <li><a href="#" data-i18n="fc2.l3">Internet Setup</a></li>
+        <li><a href="#" data-i18n="fc2.l4">Security CCTV</a></li>
+        <li><a href="#" data-i18n="fc2.l5">Car Rental</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 data-i18n="fc3.title">Cities / Villes</h4>
+      <ul>
+        <li><a href="#">Casablanca</a></li>
+        <li><a href="#">Marrakech</a></li>
+        <li><a href="#">Rabat</a></li>
+        <li><a href="#">Agadir</a></li>
+        <li><a href="#">Tanger</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p data-i18n="footer.copy">© 2025 Atlas Homes Property Management Group. All rights reserved.</p>
+    <p><a href="#" data-i18n="footer.privacy">Privacy Policy</a> &nbsp;·&nbsp; <a href="#" data-i18n="footer.terms">Terms of Service</a> &nbsp;·&nbsp; <a href="#" data-i18n="footer.sitemap">Sitemap</a></p>
+  </div>
+</footer>
+
+<script>
+/* ══════════════════════════════════════
+   TRANSLATIONS
+══════════════════════════════════════ */
+const T = {
+  en: {
+    "nav.properties":"Properties","nav.airbnb":"Airbnb","nav.services":"Services","nav.gallery":"Gallery","nav.contact":"Contact Us",
+    "hero.badge":"Morocco's Premier Property Group",
+    "hero.title":"Discover Your<br><em>Dream Home</em><br>in Morocco",
+    "hero.sub":"From the Atlantic coastline to the foothills of the Atlas Mountains — luxury rentals, sales, and full property management tailored to your lifestyle.",
+    "hero.btn1":"Explore Properties","hero.btn2":"Get in Touch",
+    "hero.stat1":"Properties Listed","hero.stat2":"Cities in Morocco","hero.stat3":"Client Satisfaction","hero.stat4":"Years of Experience",
+    "airbnb.label":"Short-Term Rentals","airbnb.title":"We Manage Your<br>Airbnb Property",
+    "airbnb.sub":"Turn your Moroccan property into a high-performing short-term rental. We handle everything so you earn passive income stress-free.",
+    "airbnb.f1":"Professional listing creation & photography","airbnb.f2":"Dynamic pricing & revenue optimisation",
+    "airbnb.f3":"24/7 guest communication & check-in management","airbnb.f4":"Full housekeeping between guest stays",
+    "airbnb.f5":"Monthly earnings reports & owner portal","airbnb.cta":"List Your Property",
+    "airbnb.badge1":"Airbnb Partner","airbnb.badge2":"Verified Manager",
+    "services.label":"What We Offer","services.title":"Complete Property Services",
+    "services.sub":"Everything your property needs — from day-to-day upkeep to advanced tech installations and transport referrals.",
+    "s1.title":"Professional Housekeeping","s1.desc":"Regular and deep-cleaning services by vetted, trained staff. We keep your property spotless for tenants, guests, and viewings.","s1.tag":"Recurring & One-off",
+    "s2.title":"Repair & Maintenance","s2.desc":"Quick-response repairs — plumbing, electrical, painting, tiling and more. We coordinate trusted local contractors so you don't have to.","s2.tag":"Referral Network",
+    "s3.title":"Internet Access Setup","s3.desc":"Fast fiber and 4G/5G internet installations organised for your property. We liaise with top Moroccan ISPs to get your tenants connected quickly.","s3.tag":"ISP Coordination",
+    "s4.title":"Security Camera Installation","s4.desc":"Referrals to certified CCTV and smart security system installers. Protect your investment with modern surveillance technology.","s4.tag":"Referral Service",
+    "s5.title":"Car Rental Referrals","s5.desc":"We connect guests and tenants with reliable car rental partners across Morocco — airport pickups, long-term hires and luxury vehicles available.","s5.tag":"Partner Network",
+    "s6.title":"Property Management","s6.desc":"Full-service management for landlords — tenant screening, lease agreements, rent collection, inspections, and legal compliance handled end-to-end.","s6.tag":"Full Package",
+    "listings.label":"Featured Properties","listings.title":"Homes for Rent & Sale",
+    "listings.sub":"Curated listings across Morocco's most desirable cities — Casablanca, Marrakech, Rabat, Agadir and beyond.",
+    "badge.rent":"For Rent","badge.sale":"For Sale","beds":"Beds","baths":"Baths","bed":"Bed","bath":"Bath","month":"/month","asking":"asking price",
+    "l1.title":"Luxury Villa with Pool","l2.title":"Traditional Riad – Medina","l3.title":"Modern Sea-View Apartment",
+    "l4.title":"Beachfront House","l5.title":"Chic Studio – City Centre","l6.title":"Penthouse – Marina Casablanca",
+    "gallery.label":"Photo Gallery","gallery.title":"Life in Moroccan Properties","gallery.sub":"A glimpse into the spaces, views, and interiors we manage across the kingdom.",
+    "g.cap1":"Luxury Living Room – Casablanca","g.cap2":"Modern Kitchen","g.cap3":"Master Suite","g.cap4":"Private Pool Villa",
+    "g.cap5":"Rooftop Terrace – Marrakech","g.cap6":"Traditional Riad Courtyard","g.cap7":"Spa-Style Bathroom","g.cap8":"Open Dining Area",
+    "why.label":"Why Atlas Homes","why.title":"Morocco's Most Trusted Property Partner",
+    "why.sub":"We combine local expertise with international standards to deliver property solutions that exceed expectations.",
+    "why.rating":"Average client rating across all services",
+    "why.p1h":"Local Expertise","why.p1d":"Deep knowledge of Morocco's property market, legal framework, and best neighbourhoods across all major cities.",
+    "why.p2h":"Multilingual Team","why.p2d":"We serve clients in Arabic, Darija, French, English and Spanish — no communication barriers, ever.",
+    "why.p3h":"Transparent & Secure","why.p3d":"Full transparency on fees, contracts, and earnings. Your property and income are always protected.",
+    "why.p4h":"24/7 Support","why.p4d":"Round-the-clock availability for owners and tenants. Emergencies don't wait — neither do we.",
+    "testi.label":"Client Stories","testi.title":"What Our Clients Say",
+    "t1.text":"Atlas Homes transformed my Marrakech riad into a top-performing Airbnb. I now earn three times what I made with a long-term tenant — completely hands-off.","t1.role":"Property Owner, Marrakech",
+    "t2.text":"From finding us the perfect apartment in Rabat to setting up internet and organising a car rental, Atlas Homes handled every detail seamlessly.","t2.role":"Expat Tenant, Rabat",
+    "t3.text":"We purchased our dream beachfront home in Agadir through Atlas Homes. Professional, honest, and incredibly efficient throughout the entire buying process.","t3.role":"Buyer, Agadir",
+    "contact.label":"Get in Touch","contact.title":"Let's Find Your<br>Perfect Property",
+    "contact.sub":"Whether you're renting, buying, or looking to list your property with us — we're here to help. Reach out today.",
+    "ci1.label":"Head Office","ci2.label":"Phone & WhatsApp","ci3.label":"Email","ci4.label":"Office Hours","ci4.val":"Mon – Fri: 9:00 – 18:00 · Sat: 10:00 – 15:00",
+    "form.title":"Send Us a Message","form.fname":"First Name","form.lname":"Last Name","form.email":"Email Address","form.phone":"Phone / WhatsApp",
+    "form.interest":"I'm interested in…","form.message":"Message","form.message.ph":"Tell us about your requirements, budget, preferred city…",
+    "fo0":"Select a service","fo1":"Renting a Property","fo2":"Buying a Property","fo3":"Airbnb Management",
+    "fo4":"Housekeeping Services","fo5":"Repair & Maintenance","fo6":"Internet Setup","fo7":"Security Camera Installation","fo8":"Car Rental Referral","fo9":"Other",
+    "form.submit":"Send Message →","form.note":"We respond within 24 hours. Your details are never shared.",
+    "footer.tagline":"Morocco's trusted partner for property rental, sales, Airbnb management, and premium residential services since 2016.",
+    "fc1.title":"Properties","fc1.l1":"Rentals","fc1.l2":"For Sale","fc1.l3":"Airbnb Listings","fc1.l4":"New Developments","fc1.l5":"Commercial",
+    "fc2.title":"Services","fc2.l1":"Housekeeping","fc2.l2":"Repairs & Maintenance","fc2.l3":"Internet Setup","fc2.l4":"Security CCTV","fc2.l5":"Car Rental",
+    "fc3.title":"Cities",
+    "footer.copy":"© 2025 Atlas Homes Property Management Group. All rights reserved.",
+    "footer.privacy":"Privacy Policy","footer.terms":"Terms of Service","footer.sitemap":"Sitemap",
+    "fb.ok":"✓ Message Sent!","fb.err":"Please fill all fields"
+  },
+  fr: {
+    "nav.properties":"Propriétés","nav.airbnb":"Airbnb","nav.services":"Services","nav.gallery":"Galerie","nav.contact":"Contactez-nous",
+    "hero.badge":"Le groupe immobilier N°1 au Maroc",
+    "hero.title":"Trouvez Votre<br><em>Maison de Rêve</em><br>au Maroc",
+    "hero.sub":"Des côtes atlantiques aux contreforts de l'Atlas — locations de luxe, ventes et gestion immobilière complète adaptées à votre style de vie.",
+    "hero.btn1":"Voir les propriétés","hero.btn2":"Nous contacter",
+    "hero.stat1":"Biens référencés","hero.stat2":"Villes au Maroc","hero.stat3":"Satisfaction client","hero.stat4":"Années d'expérience",
+    "airbnb.label":"Locations courte durée","airbnb.title":"Nous gérons votre<br>bien Airbnb",
+    "airbnb.sub":"Transformez votre bien marocain en location courte durée performante. Nous gérons tout pour que vous perceviez des revenus passifs sans stress.",
+    "airbnb.f1":"Création d'annonce professionnelle & photographie","airbnb.f2":"Tarification dynamique & optimisation des revenus",
+    "airbnb.f3":"Communication voyageurs & gestion des check-ins 24/7","airbnb.f4":"Ménage complet entre chaque séjour",
+    "airbnb.f5":"Rapports de revenus mensuels & espace propriétaire","airbnb.cta":"Mettre mon bien en location",
+    "airbnb.badge1":"Partenaire Airbnb","airbnb.badge2":"Gestionnaire certifié",
+    "services.label":"Ce que nous proposons","services.title":"Services immobiliers complets",
+    "services.sub":"Tout ce dont votre bien a besoin — de l'entretien quotidien aux installations technologiques et aux références de transport.",
+    "s1.title":"Ménage professionnel","s1.desc":"Services de nettoyage régulier et en profondeur par un personnel qualifié. Votre bien impeccable pour les locataires, voyageurs et visites.","s1.tag":"Récurrent & ponctuel",
+    "s2.title":"Réparations & maintenance","s2.desc":"Réparations rapides — plomberie, électricité, peinture, carrelage et plus. Nous coordonnons des artisans locaux de confiance à votre place.","s2.tag":"Réseau de référents",
+    "s3.title":"Installation Internet","s3.desc":"Installation fibre et 4G/5G organisée pour votre bien. Nous travaillons avec les meilleurs FAI marocains pour connecter vos locataires rapidement.","s3.tag":"Coordination FAI",
+    "s4.title":"Caméras de sécurité","s4.desc":"Mise en relation avec des installateurs certifiés CCTV et systèmes de sécurité intelligents. Protégez votre investissement.","s4.tag":"Service de référencement",
+    "s5.title":"Location de voiture","s5.desc":"Nous mettons en relation vos voyageurs et locataires avec des partenaires fiables — transferts aéroport, longue durée et véhicules de luxe.","s5.tag":"Réseau partenaires",
+    "s6.title":"Gestion immobilière","s6.desc":"Gestion complète pour propriétaires — sélection des locataires, baux, encaissement des loyers, états des lieux et conformité juridique.","s6.tag":"Pack complet",
+    "listings.label":"Biens en vedette","listings.title":"Biens à louer & à vendre",
+    "listings.sub":"Sélection de biens dans les villes les plus prisées du Maroc — Casablanca, Marrakech, Rabat, Agadir et ailleurs.",
+    "badge.rent":"À louer","badge.sale":"À vendre","beds":"ch.","baths":"sdb.","bed":"ch.","bath":"sdb.","month":"/mois","asking":"prix demandé",
+    "l1.title":"Villa de luxe avec piscine","l2.title":"Riad traditionnel – Médina","l3.title":"Appartement vue mer moderne",
+    "l4.title":"Maison en bord de mer","l5.title":"Studio chic – Centre-ville","l6.title":"Penthouse – Marina Casablanca",
+    "gallery.label":"Galerie photos","gallery.title":"La vie dans nos propriétés","gallery.sub":"Un aperçu des espaces, vues et intérieurs que nous gérons à travers le Maroc.",
+    "g.cap1":"Salon de luxe – Casablanca","g.cap2":"Cuisine moderne","g.cap3":"Suite parentale","g.cap4":"Villa avec piscine privée",
+    "g.cap5":"Terrasse rooftop – Marrakech","g.cap6":"Patio de riad traditionnel","g.cap7":"Salle de bain spa","g.cap8":"Espace repas ouvert",
+    "why.label":"Pourquoi Atlas Homes","why.title":"Le partenaire immobilier le plus fiable du Maroc",
+    "why.sub":"Nous allions expertise locale et standards internationaux pour des solutions immobilières qui dépassent vos attentes.",
+    "why.rating":"Note moyenne clients tous services confondus",
+    "why.p1h":"Expertise locale","why.p1d":"Connaissance approfondie du marché immobilier marocain, du cadre juridique et des meilleurs quartiers dans toutes les grandes villes.",
+    "why.p2h":"Équipe multilingue","why.p2d":"Nous servons nos clients en arabe, darija, français, anglais et espagnol — aucune barrière linguistique.",
+    "why.p3h":"Transparence & sécurité","why.p3d":"Transparence totale sur les honoraires, contrats et revenus. Votre bien et vos revenus sont toujours protégés.",
+    "why.p4h":"Assistance 24h/24 7j/7","why.p4d":"Disponibilité permanente pour propriétaires et locataires. Les urgences n'attendent pas — nous non plus.",
+    "testi.label":"Témoignages","testi.title":"Ce que disent nos clients",
+    "t1.text":"Atlas Homes a transformé mon riad de Marrakech en un Airbnb très performant. Je gagne désormais trois fois plus qu'avec une location longue durée — en toute sérénité.","t1.role":"Propriétaire, Marrakech",
+    "t2.text":"De la recherche de notre appartement à Rabat à l'installation d'internet et la location de voiture, Atlas Homes a tout géré parfaitement.","t2.role":"Locataire expatriée, Rabat",
+    "t3.text":"Nous avons acheté notre maison de rêve en bord de mer à Agadir via Atlas Homes. Professionnels, honnêtes et d'une efficacité remarquable.","t3.role":"Acquéreur, Agadir",
+    "contact.label":"Nous contacter","contact.title":"Trouvons ensemble<br>votre bien idéal",
+    "contact.sub":"Que vous souhaitiez louer, acheter ou confier votre bien à notre gestion — nous sommes là pour vous aider.",
+    "ci1.label":"Siège social","ci2.label":"Téléphone & WhatsApp","ci3.label":"E-mail","ci4.label":"Horaires d'ouverture","ci4.val":"Lun – Ven : 9h00 – 18h00 · Sam : 10h00 – 15h00",
+    "form.title":"Envoyez-nous un message","form.fname":"Prénom","form.lname":"Nom","form.email":"Adresse e-mail","form.phone":"Téléphone / WhatsApp",
+    "form.interest":"Je suis intéressé(e) par…","form.message":"Message","form.message.ph":"Parlez-nous de vos besoins, budget, ville souhaitée…",
+    "fo0":"Choisir un service","fo1":"Louer un bien","fo2":"Acheter un bien","fo3":"Gestion Airbnb",
+    "fo4":"Services de ménage","fo5":"Réparations & maintenance","fo6":"Installation Internet","fo7":"Caméras de sécurité","fo8":"Location de voiture","fo9":"Autre",
+    "form.submit":"Envoyer le message →","form.note":"Nous répondons sous 24 heures. Vos données ne sont jamais partagées.",
+    "footer.tagline":"Partenaire de confiance au Maroc pour la location, la vente, la gestion Airbnb et les services résidentiels haut de gamme depuis 2016.",
+    "fc1.title":"Propriétés","fc1.l1":"Locations","fc1.l2":"À vendre","fc1.l3":"Annonces Airbnb","fc1.l4":"Nouveaux programmes","fc1.l5":"Commercial",
+    "fc2.title":"Services","fc2.l1":"Ménage","fc2.l2":"Réparations & maintenance","fc2.l3":"Installation Internet","fc2.l4":"Vidéosurveillance","fc2.l5":"Location voiture",
+    "fc3.title":"Villes",
+    "footer.copy":"© 2025 Atlas Homes Property Management Group. Tous droits réservés.",
+    "footer.privacy":"Politique de confidentialité","footer.terms":"Conditions d'utilisation","footer.sitemap":"Plan du site",
+    "fb.ok":"✓ Message envoyé !","fb.err":"Veuillez remplir tous les champs"
+  }
+};
+
+let lang = 'en';
+
+function setLang(l) {
+  lang = l;
+  document.documentElement.lang = l;
+  const t = T[l];
+
+  /* text */
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const v = t[el.dataset.i18n];
+    if (v !== undefined) el.textContent = v;
+  });
+  /* innerHTML */
+  document.querySelectorAll('[data-i18n-html]').forEach(el => {
+    const v = t[el.dataset.i18nHtml];
+    if (v !== undefined) el.innerHTML = v;
+  });
+  /* textarea placeholder */
+  document.querySelectorAll('[data-ph-key]').forEach(el => {
+    const v = t[el.dataset.phKey];
+    if (v !== undefined) el.placeholder = v;
+  });
+  /* lang buttons */
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.textContent.trim().toLowerCase() === l);
+  });
+}
+
+/* Navbar scroll */
+const nb = document.getElementById('navbar');
+window.addEventListener('scroll', () => nb.classList.toggle('scrolled', scrollY > 40));
+
+/* Mobile menu */
+function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('open'); }
+function closeMenu()  { document.getElementById('mobileMenu').classList.remove('open'); }
+
+/* Scroll reveal */
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) { setTimeout(() => e.target.classList.add('visible'), i * 80); obs.unobserve(e.target); }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+/* Form */
+document.querySelector('.btn-submit').addEventListener('click', function () {
+  const inputs = document.querySelectorAll('.contact-form input, .contact-form textarea');
+  let ok = true;
+  inputs.forEach(i => { if (!i.value.trim()) ok = false; });
+  const t = T[lang];
+  if (ok) {
+    this.textContent = t['fb.ok'];
+    this.style.background = 'linear-gradient(135deg,#28a745,#20c997)';
+    setTimeout(() => { this.textContent = t['form.submit']; this.style.background = ''; inputs.forEach(i => i.value=''); }, 3000);
+  } else {
+    this.textContent = t['fb.err'];
+    this.style.background = 'linear-gradient(135deg,#e74c3c,#c0392b)';
+    setTimeout(() => { this.textContent = t['form.submit']; this.style.background = ''; }, 2500);
+  }
+});
+</script>
+</body>
+</html>
