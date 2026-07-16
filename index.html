@@ -473,33 +473,59 @@
         <div class="ci"><div class="ci-icon">🕐</div><div class="ci-body"><strong data-i18n="ci4.label">Office Hours</strong><span data-i18n="ci4.val">Mon – Fri: 9:00 – 18:00 · Sat: 10:00 – 15:00</span></div></div>
       </div>
     </div>
-    <div class="contact-form reveal">
-      <h3 data-i18n="form.title">Send Us a Message</h3>
-      <div class="form-row">
-        <div class="form-group"><label data-i18n="form.fname">First Name</label><input type="text" placeholder="user" /></div>
-        <div class="form-group"><label data-i18n="form.lname">Last Name</label><input type="text" placeholder="user" /></div>
-      </div>
-      <div class="form-group"><label data-i18n="form.email">Email Address</label><input type="email" placeholder="user@example.com" /></div>
-      <div class="form-group"><label data-i18n="form.phone">Phone / WhatsApp</label><input type="tel" placeholder="+212 6XX XXX XXX" /></div>
-      <div class="form-group">
-        <label data-i18n="form.interest">I'm interested in…</label>
-        <select>
-          <option data-i18n="fo0">Select a service</option>
-          <option data-i18n="fo1">Renting a Property</option>
-          <option data-i18n="fo2">Buying a Property</option>
-          <option data-i18n="fo3">Airbnb Management</option>
-          <option data-i18n="fo4">Housekeeping Services</option>
-          <option data-i18n="fo5">Repair &amp; Maintenance</option>
-          <option data-i18n="fo6">Internet Setup</option>
-          <option data-i18n="fo7">Security Camera Installation</option>
-          <option data-i18n="fo8">Car Rental Referral</option>
-          <option data-i18n="fo9">Other</option>
-        </select>
-      </div>
-      <div class="form-group"><label data-i18n="form.message">Message</label><textarea data-ph-key="form.message.ph" placeholder="Tell us about your requirements, budget, preferred city…"></textarea></div>
-      <button class="btn-submit" data-i18n="form.submit">Send Message →</button>
-      <p class="form-note" data-i18n="form.note">We respond within 24 hours. Your details are never shared.</p>
+    <form action="https://api.web3forms.com/submit" method="POST" class="contact-form reveal">
+  <h3 data-i18n="form.title">Send Us a Message</h3>
+
+  <!-- Required: your Web3Forms access key -->
+  <input type="hidden" name="access_key" value="db4c4704-d77c-40c4-8e54-cf8c773daf9d">
+
+  <!-- Optional: redirect after submit -->
+  <input type="hidden" name="redirect" value="https://atlashomesmorocco.com/thank-you">
+
+  <div class="form-row">
+    <div class="form-group">
+      <label data-i18n="form.fname">First Name</label>
+      <input type="text" name="first_name" placeholder="user" required>
     </div>
+    <div class="form-group">
+      <label data-i18n="form.lname">Last Name</label>
+      <input type="text" name="last_name" placeholder="user" required>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label data-i18n="form.email">Email Address</label>
+    <input type="email" name="email" placeholder="user@example.com" required>
+  </div>
+
+  <div class="form-group">
+    <label data-i18n="form.phone">Phone / WhatsApp</label>
+    <input type="tel" name="phone" placeholder="+212 6XX XXX XXX">
+  </div>
+
+  <div class="form-group">
+    <label data-i18n="form.interest">I'm interested in…</label>
+    <select name="interest">
+      <option data-i18n="fo0">Select a service</option>
+      <option data-i18n="fo1">Renting a Property</option>
+      <option data-i18n="fo2">Buying a Property</option>
+      <option data-i18n="fo3">Airbnb Management</option>
+      <option data-i18n="fo4">Housekeeping Services</option>
+      <option data-i18n="fo5">Repair &amp; Maintenance</option>
+      <option data-i18n="fo6">Internet Setup</option>
+      <option data-i18n="fo7">Security Camera Installation</option>
+      <option data-i18n="fo8">Car Rental Referral</option>
+      <option data-i18n="fo9">Other</option>
+    </select>
+  </div>
+
+  <!-- Honeypot spam protection (recommended by Web3Forms) -->
+  <input type="checkbox" name="botcheck" class="hidden" style="display:none;">
+
+  <!-- Submit button -->
+  <button type="submit">Send Message</button>
+  <p class="form-note" data-i18n="form.note">We respond within 24 hours. Your details are never shared.</p>
+</form>
   </div>
 </section>
 
